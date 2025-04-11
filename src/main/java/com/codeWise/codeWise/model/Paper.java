@@ -6,25 +6,25 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
 @Data
 @NoArgsConstructor
-public class Comment {
+@Entity
+public class Paper {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String text;
+    private String comment;
+    private String attachments;
     private LocalDate uploadDate;
-    private Integer rating;
 
     @ManyToOne
     private Student student;
 
-    public Comment(String text, LocalDate uploadDate, Integer rating) {
-        this.text = text;
+    public Paper(String comment, String attachments, LocalDate uploadDate) {
+        this.comment = comment;
+        this.attachments = attachments;
         this.uploadDate = uploadDate;
-        this.rating = rating;
     }
 }

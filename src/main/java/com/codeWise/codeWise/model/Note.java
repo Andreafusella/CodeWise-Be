@@ -24,6 +24,9 @@ public class Note {
     @ManyToOne
     private Attachments attachments;
 
+    @ManyToOne
+    private Student student;
+
     public Note(String title, String description, LocalDate uploadDate, CategoryNote category) {
         this.title = title;
         this.description = description;
