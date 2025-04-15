@@ -3,26 +3,23 @@ package com.codeWise.codeWise.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
 import java.util.List;
 
 @Entity
 @Data
-public class Resource {
+public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String title;
+    private String fileName;
 
-    private String description;
-
-    private String url;
+    private String fileUrl;
 
     @ManyToOne
-    private Teacher teacher;
+    private Course course;
 
-    @ManyToMany(mappedBy = "readResources")
-    private List<Student> students;
+    @OneToMany(mappedBy = "attachment")
+    private List<Note> notes;
 }

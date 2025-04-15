@@ -1,31 +1,36 @@
 package com.codeWise.codeWise.model;
 
-import com.codeWise.codeWise.type.RoleTeacher;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Data
-@NoArgsConstructor
 public class Teacher {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String lastName;
-    private String email;
-    private RoleTeacher role;
+    @NotNull
+    private String firstName;
 
-    public Teacher(String name, String lastName, String email, RoleTeacher role) {
-        this.name = name;
-        this.lastName = lastName;
-        this.email = email;
-        this.role = role;
-    }
+    @NotNull
+    private String lastName;
+
+    @Email
+    private String email;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Resource> resources;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Exercise> exercises;
+
+    @ManyToMany(mappedBy = "teachers")
+    @JsonBackReference
+    private List<Course> courses;
 }

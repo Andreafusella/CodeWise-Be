@@ -3,12 +3,11 @@ package com.codeWise.codeWise.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
 import java.util.List;
 
 @Entity
 @Data
-public class Resource {
+public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,11 +17,9 @@ public class Resource {
 
     private String description;
 
-    private String url;
-
     @ManyToOne
     private Teacher teacher;
 
-    @ManyToMany(mappedBy = "readResources")
-    private List<Student> students;
+    @OneToMany(mappedBy = "exercise")
+    private List<Paper> papers;
 }

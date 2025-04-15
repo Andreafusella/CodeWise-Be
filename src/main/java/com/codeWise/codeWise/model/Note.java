@@ -4,25 +4,21 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.List;
-
 @Entity
 @Data
-public class Resource {
+public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private String title;
+    private String content;
 
-    private String description;
-
-    private String url;
+    private String creationDate;
 
     @ManyToOne
-    private Teacher teacher;
+    private Student student;
 
-    @ManyToMany(mappedBy = "readResources")
-    private List<Student> students;
+    @ManyToOne
+    private Attachment attachment;
 }

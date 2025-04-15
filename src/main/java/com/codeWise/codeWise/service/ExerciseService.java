@@ -1,9 +1,9 @@
 package com.codeWise.codeWise.service;
 
 import com.codeWise.codeWise.exception.ResourceNotFoundException;
-import com.codeWise.codeWise.model.Resource;
+import com.codeWise.codeWise.model.Exercise;
 import com.codeWise.codeWise.model.Teacher;
-import com.codeWise.codeWise.repository.ResourceRepository;
+import com.codeWise.codeWise.repository.ExerciseRepository;
 import com.codeWise.codeWise.repository.TeacherRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ResourceService {
+public class ExerciseService {
 
     @Autowired
-    private ResourceRepository resourceRepository;
+    private ExerciseRepository exerciseRepository;
 
     @Autowired
     private TeacherRepository teacherRepository;

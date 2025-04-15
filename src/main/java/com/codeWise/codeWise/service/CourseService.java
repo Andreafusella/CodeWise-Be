@@ -1,10 +1,10 @@
 package com.codeWise.codeWise.service;
 
 import com.codeWise.codeWise.exception.ResourceNotFoundException;
-import com.codeWise.codeWise.model.Student;
-import com.codeWise.codeWise.model.Resource;
-import com.codeWise.codeWise.repository.StudentRepository;
-import com.codeWise.codeWise.repository.ResourceRepository;
+import com.codeWise.codeWise.model.Course;
+import com.codeWise.codeWise.model.Teacher;
+import com.codeWise.codeWise.repository.CourseRepository;
+import com.codeWise.codeWise.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class StudentService {
+public class CourseService {
 
     @Autowired
-    private StudentRepository studentRepository;
+    private CourseRepository courseRepository;
 
     @Autowired
-    private ResourceRepository resourceRepository;
+    private TeacherRepository teacherRepository;
 
-    
+
 }
