@@ -2,16 +2,13 @@ package com.codeWise.codeWise.service;
 
 import com.codeWise.codeWise.dto.request.NewStudentDto;
 import com.codeWise.codeWise.exception.EmailExistException;
-import com.codeWise.codeWise.exception.NotExistStudentException;
-import com.codeWise.codeWise.exception.ResourceNotFoundException;
+import com.codeWise.codeWise.exception.EntityNotFoundException;
 import com.codeWise.codeWise.model.Student;
-import com.codeWise.codeWise.model.Resource;
 import com.codeWise.codeWise.repository.StudentRepository;
 import com.codeWise.codeWise.repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +47,7 @@ public class StudentService {
             return student.get();
         }
 
-        throw new NotExistStudentException("Not exist Student with id: " + id);
+        throw new EntityNotFoundException("Not exist Student with id: " + id);
     }
 
     public List<Student> getAll() {
@@ -65,6 +62,6 @@ public class StudentService {
             studentRepository.deleteById(id);
         }
 
-        throw new NotExistStudentException("Not exist Student with id: " + id);
+        throw new EntityNotFoundException("Not exist Student with id: " + id);
     }
 }

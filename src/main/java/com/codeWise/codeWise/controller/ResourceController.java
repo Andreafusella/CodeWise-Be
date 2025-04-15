@@ -1,6 +1,9 @@
 package com.codeWise.codeWise.controller;
 
+import com.codeWise.codeWise.dto.request.NewResourceDto;
+import com.codeWise.codeWise.exception.EntityNotFoundException;
 import com.codeWise.codeWise.model.Resource;
+import com.codeWise.codeWise.model.Student;
 import com.codeWise.codeWise.service.ResourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,7 +22,51 @@ public class ResourceController {
     @Autowired
     private ResourceService resourceService;
 
-    // @Operation(summary = "Create a new resource")
-    // @PostMapping
-    
+    @Operation(summary = "Create a new resource")
+    @PostMapping()
+    public ResponseEntity<?> createResource(@RequestBody NewResourceDto newResourceDto) {
+        try {
+            Resource resource = resourceService.newResource(newResourceDto);
+            return ResponseEntity.ok().body(resource);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Get resource by id")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getResourceById(@PathVariable Long id) {
+        try {
+            Resource resource = resourceService.getById(id);
+            return ResponseEntity.ok().body(resource);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Get all resource")
+    @GetMapping()
+    public ResponseEntity<?> getAllStudent() {
+        try {
+            List<Resource> resources = resourceService.getAll();
+            return ResponseEntity.ok().body(resources);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Delete resource by id")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteResourceById(@PathVariable Long id) {
+        try {
+            resourceService.deleteResourceById(id);
+            return ResponseEntity.status(204).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
