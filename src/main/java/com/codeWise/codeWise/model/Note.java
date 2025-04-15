@@ -11,14 +11,5 @@ public class Note {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private String content;
 
-    private String creationDate;
-
-    @ManyToOne
-    private Student student;
-
-    @ManyToOne
-    private Attachment attachment;
 }

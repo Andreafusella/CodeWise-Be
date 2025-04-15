@@ -12,14 +12,5 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private String title;
 
-    private String description;
-
-    @ManyToOne
-    private Teacher teacher;
-
-    @OneToMany(mappedBy = "exercise")
-    private List<Paper> papers;
 }

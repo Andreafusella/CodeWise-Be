@@ -6,6 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.NonNull;
 
 @Entity
 @Data
@@ -14,18 +15,19 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NonNull
     private String name;
 
-    private String description;
+    @NonNull
+    private Integer accademicYear;
 
-    @ManyToMany
-    @JsonManagedReference
-    private List<Teacher> teachers;
+    @NonNull
+    private Integer creditNumber;
 
-    @OneToMany(mappedBy = "course")
-    private List<Attachment> attachments;
+    @NonNull
+    private String degreeProgram;
 
-    @OneToMany(mappedBy = "course")
-    private List<UniversitaryProject> universitaryProjects;
+
+
+
 }

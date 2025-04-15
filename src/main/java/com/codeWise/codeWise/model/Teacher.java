@@ -1,5 +1,6 @@
 package com.codeWise.codeWise.model;
 
+import com.codeWise.codeWise.type.RoleTeacher;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.NonNull;
 
 @Entity
 @Data
@@ -15,22 +17,24 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private String firstName;
+    @NonNull
+    private String name;
 
-    @NotNull
+    @NonNull
     private String lastName;
 
+    @NonNull
     @Email
     private String email;
 
-    @OneToMany(mappedBy = "teacher")
-    private List<Resource> resources;
+    @NonNull
+    private RoleTeacher role;
 
-    @OneToMany(mappedBy = "teacher")
-    private List<Exercise> exercises;
 
-    @ManyToMany(mappedBy = "teachers")
-    @JsonBackReference
-    private List<Course> courses;
+    public Teacher(String name, String lastName, String email, RoleTeacher role) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.role = role;
+    }
 }

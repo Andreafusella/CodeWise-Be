@@ -3,34 +3,48 @@ package com.codeWise.codeWise.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private String firstName;
+    @NonNull
+    private String name;
 
-    @NotNull
+    @NonNull
     private String lastName;
 
+    @NonNull
     @Email
     private String email;
 
-    @ManyToMany
-    private List<Resource> readResources;
+    @NonNull
+    private LocalDate dateBirth;
 
-    @OneToMany(mappedBy = "student")
-    private List<Paper> papers;
+    @NonNull
+    private String placeBirth;
 
-    @OneToMany(mappedBy = "student")
-    private List<Note> notes;
+    @NonNull
+    private Integer yearRegistration;
 
-    @ManyToMany
-    private List<UniversitaryProject> universitaryProjects;
+    @ManyToOne
+    private Course course;
+
+    public Student(String name, String lastName, String email, LocalDate dateBirth, String placeBirth, Integer yearRegistration) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.dateBirth = dateBirth;
+        this.placeBirth = placeBirth;
+        this.yearRegistration = yearRegistration;
+    }
 }
