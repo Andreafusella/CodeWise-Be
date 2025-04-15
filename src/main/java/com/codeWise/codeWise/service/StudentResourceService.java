@@ -59,8 +59,7 @@ public class StudentResourceService {
     }
 
     public List<StudentResource> getAll() {
-        List<StudentResource> list = studentResourceRepository.findAll();
-        return list;
+        return studentResourceRepository.findAll();
     }
 
     public void deleteById(Long id) {

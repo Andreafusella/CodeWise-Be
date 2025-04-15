@@ -54,8 +54,7 @@ public class ResourceService {
     }
 
     public List<Resource> getAll() {
-        List<Resource> list = resourceRepository.findAll();
-        return list;
+        return resourceRepository.findAll();
     }
 
     public void deleteResourceById(Long id) {
