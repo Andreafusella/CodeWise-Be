@@ -3,10 +3,12 @@ package com.codeWise.codeWise.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import java.util.List;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +19,16 @@ public class Attachment {
 
     private String fileUrl;
 
+    @NonNull
+    private String type;
+
     @ManyToOne
     private Course course;
 
-    @OneToMany(mappedBy = "attachment")
-    private List<Note> notes;
+    public Attachment(String fileName, String fileUrl, String type, Course course) {
+        this.fileName = fileName;
+        this.fileUrl = fileUrl;
+        this.type = type;
+        this.course = course;
+    }
 }

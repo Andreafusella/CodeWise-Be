@@ -1,10 +1,12 @@
 package com.codeWise.codeWise.controller;
 
-import com.codeWise.codeWise.dto.request.NewStudentDto;
+import com.codeWise.codeWise.dto.request.NewCourseDto;
+import com.codeWise.codeWise.dto.request.NewTeacherCourseDto;
 import com.codeWise.codeWise.exception.EmailExistException;
 import com.codeWise.codeWise.exception.EntityNotFoundException;
-import com.codeWise.codeWise.model.Student;
-import com.codeWise.codeWise.service.StudentService;
+import com.codeWise.codeWise.model.Course;
+import com.codeWise.codeWise.model.TeacherCourse;
+import com.codeWise.codeWise.service.TeacherCourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +17,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/student")
-@Tag(name = "Student", description = "Endpoints for managing students")
-public class StudentController {
+@RequestMapping("/api/teacher-course")
+@Tag(name = "Teacher Course", description = "Endpoints for managing Teacher Course")
+public class TeacherCourseController {
 
     @Autowired
-    private StudentService studentService;
+    private TeacherCourseService teacherCourseService;
 
-    @Operation(summary = "Create a new student")
+    @Operation(summary = "Create a new teacher-course")
     @PostMapping()
-    public ResponseEntity<?> createStudent(@RequestBody NewStudentDto newStudent) {
+    public ResponseEntity<?> create(@RequestBody NewTeacherCourseDto newCourseDto) {
         try {
-            Student student = studentService.createStudent(newStudent);
-            return ResponseEntity.ok().body(student);
+            TeacherCourse teacherCourse = teacherCourseService.create(newCourseDto);
+            return ResponseEntity.ok().body(teacherCourse);
         } catch (EmailExistException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
@@ -35,12 +37,12 @@ public class StudentController {
         }
     }
 
-    @Operation(summary = "Get student by id")
+    @Operation(summary = "Get teacher-course by id")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getStudentById(@PathVariable Long id) {
+    public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
-            Student student = studentService.getById(id);
-            return ResponseEntity.ok().body(student);
+            TeacherCourse teacherCourse = teacherCourseService.getById(id);
+            return ResponseEntity.ok().body(teacherCourse);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
@@ -48,27 +50,25 @@ public class StudentController {
         }
     }
 
-    @Operation(summary = "Get all student")
+    @Operation(summary = "Get all teacher-course")
     @GetMapping()
-    public ResponseEntity<?> getAllStudent() {
+    public ResponseEntity<?> getAll() {
         try {
-            List<Student> students = studentService.getAll();
-            return ResponseEntity.ok().body(students);
+            List<TeacherCourse> teacherCourse = teacherCourseService.getAll();
+            return ResponseEntity.ok().body(teacherCourse);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @Operation(summary = "Delete student by id")
+    @Operation(summary = "Delete teacher-course by id")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteStudentById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         try {
-            studentService.deleteStudentById(id);
+            teacherCourseService.deleteById(id);
             return ResponseEntity.status(204).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
-
-
 }

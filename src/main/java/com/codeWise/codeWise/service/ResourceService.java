@@ -2,18 +2,12 @@ package com.codeWise.codeWise.service;
 
 import com.codeWise.codeWise.dto.request.NewResourceDto;
 import com.codeWise.codeWise.exception.EntityNotFoundException;
-import com.codeWise.codeWise.exception.ResourceNotFoundException;
 import com.codeWise.codeWise.model.Resource;
-import com.codeWise.codeWise.model.Student;
 import com.codeWise.codeWise.model.Teacher;
 import com.codeWise.codeWise.repository.ResourceRepository;
 import com.codeWise.codeWise.repository.TeacherRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +19,7 @@ public class ResourceService {
 
     @Autowired
     private TeacherRepository teacherRepository;
+
 
     public Resource newResource(NewResourceDto resourceDto) {
         Optional<Teacher> teacherOpt = teacherRepository.findById(resourceDto.getIdTeacher());
@@ -61,7 +56,8 @@ public class ResourceService {
         Optional<Resource> resource = resourceRepository.findById(id);
 
         if (resource.isPresent()){
-            resourceRepository.deleteById(id);
+            resourceRepository.delete(resource.get());
+            return;
         }
 
         throw new EntityNotFoundException("Not exist Resource with id: " + id);

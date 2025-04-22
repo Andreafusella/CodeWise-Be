@@ -6,10 +6,12 @@ import lombok.Data;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +26,9 @@ public class Course {
     @NonNull
     private Integer creditNumber;
 
-    @NonNull
-    private String degreeProgram;
-
-
-
-
+    public Course(@NonNull String name, @NonNull Integer accademicYear, @NonNull Integer creditNumber) {
+        this.name = name;
+        this.accademicYear = accademicYear;
+        this.creditNumber = creditNumber;
+    }
 }

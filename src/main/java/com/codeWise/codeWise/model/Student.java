@@ -37,7 +37,9 @@ public class Student {
     private Integer yearRegistration;
 
     @ManyToOne
+    @JoinColumn(name = "course_id", nullable = true)
     private Course course;
+
 
     public Student(String name, String lastName, String email, LocalDate dateBirth, String placeBirth, Integer yearRegistration) {
         this.name = name;

@@ -2,10 +2,7 @@ package com.codeWise.codeWise.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,8 +16,13 @@ public class Resource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     private String text;
+
+    @NonNull
     private String subject;
+
+    @NonNull
     private LocalDate uploadDate;
 
     @ManyToOne

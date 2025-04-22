@@ -66,7 +66,8 @@ public class StudentResourceService {
         Optional<StudentResource> resource = studentResourceRepository.findById(id);
 
         if (resource.isPresent()) {
-            studentResourceRepository.deleteById(id);
+            studentResourceRepository.delete(resource.get());
+            return;
         }
 
         throw new EntityNotFoundException("Not exist Student Resource with id: " + id);

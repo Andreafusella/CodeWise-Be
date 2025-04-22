@@ -11,6 +11,7 @@ import com.codeWise.codeWise.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +43,26 @@ public class TeacherCourseService {
         } else {
             throw new EntityNotFoundException("Not exist Course with id: " + dto.getIdCourse());
         }
+    }
+
+    public TeacherCourse getById(Long id) {
+        Optional<TeacherCourse> teacherCourse = teacherCourseRepository.findById(id);
+        if (teacherCourse.isPresent()) {
+            return teacherCourse.get();
+        }
+        throw new EntityNotFoundException("Not exist Teacher Course with id: " + id);
+    }
+
+    public List<TeacherCourse> getAll() {
+        return teacherCourseRepository.findAll();
+    }
+
+    public void deleteById(Long id) {
+        Optional<TeacherCourse> teacherCourse = teacherCourseRepository.findById(id);
+        if (teacherCourse.isPresent()) {
+            teacherCourseRepository.delete(teacherCourse.get());
+            return;
+        }
+        throw new EntityNotFoundException("Not exist Teacher Course with id: " + id);
     }
 }
