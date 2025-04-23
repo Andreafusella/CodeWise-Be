@@ -1,8 +1,11 @@
 package com.codeWise.codeWise.controller;
 
 import com.codeWise.codeWise.dto.request.NewStudentDto;
+import com.codeWise.codeWise.dto.request.SetStudentToCourseDto;
+import com.codeWise.codeWise.exception.AlreadySetCourseStudentException;
 import com.codeWise.codeWise.exception.EmailExistException;
 import com.codeWise.codeWise.exception.EntityNotFoundException;
+import com.codeWise.codeWise.exception.NotAlreadySetCourseStudentException;
 import com.codeWise.codeWise.model.Student;
 import com.codeWise.codeWise.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +32,32 @@ public class StudentController {
             Student student = studentService.createStudent(newStudent);
             return ResponseEntity.ok().body(student);
         } catch (EmailExistException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Set course for student")
+    @PostMapping("/set-course")
+    public ResponseEntity<?> setCourseStudent(@RequestBody SetStudentToCourseDto dto) {
+        try {
+            studentService.setCourse(dto);
+            return ResponseEntity.ok().body("Student " + dto.getIdStudent() + " set to course: " + dto.getIdCourse());
+        } catch (AlreadySetCourseStudentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Unset course for student")
+    @PostMapping("/unset-course")
+    public ResponseEntity<?> unsetCourseStudent(@RequestBody SetStudentToCourseDto dto) {
+        try {
+            studentService.unsetCourse(dto);
+            return ResponseEntity.ok().body("Student " + dto.getIdStudent() + " unset to course: " + dto.getIdCourse());
+        } catch (NotAlreadySetCourseStudentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -65,6 +94,18 @@ public class StudentController {
         try {
             studentService.deleteStudentById(id);
             return ResponseEntity.status(204).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Get student info PDF")
+    @GetMapping("/pdf/{id}")
+    public ResponseEntity<?> getStudentPdf(@PathVariable Long id) {
+        try {
+            return studentService.getStudentInfoPDF(id);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
