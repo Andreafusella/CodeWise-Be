@@ -11,6 +11,7 @@ import com.codeWise.codeWise.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +71,23 @@ public class CourseController {
             return ResponseEntity.status(204).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Get Excel file with info Course Exam")
+    @GetMapping("/excel")
+    public ResponseEntity<ByteArrayResource> getExcelFile() {
+        try {
+            ByteArrayResource resource = courseService.getExcelFile();
+
+            return ResponseEntity.ok()
+                    .header("Content-Disposition", "attachment; filename=courses.xlsx")
+                    .header("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    .contentLength(resource.contentLength())
+                    .body(resource);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     
