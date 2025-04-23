@@ -71,4 +71,14 @@ public class TeacherController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @Operation(summary = "Get CSV teacher")
+    @GetMapping("/csv")
+    public ResponseEntity<?> getCsvTeachers() {
+        try {
+            return teacherService.getCsv();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
