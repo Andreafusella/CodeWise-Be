@@ -16,6 +16,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.LineSeparator;
 import com.itextpdf.layout.element.Paragraph;
+import lombok.extern.java.Log;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Log
 @Service
 public class StudentService {
 
@@ -35,7 +37,6 @@ public class StudentService {
 
 
     public Student createStudent(NewStudentDto newStudentDto) {
-        System.out.println("Student ricevuto: " + newStudentDto);
         Optional<Student> existingStudent = studentRepository.findByEmail(newStudentDto.getEmail());
 
         if (existingStudent.isPresent()) {
