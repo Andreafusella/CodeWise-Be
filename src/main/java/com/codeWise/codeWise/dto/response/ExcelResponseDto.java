@@ -16,15 +16,7 @@ public class ExcelResponseDto {
     private String descriptionExercise;
     private Long numberOfStudents;
 
-    public ExcelResponseDto(
-            String nameCourse,
-            Integer accademicYear,
-            Integer creditNumber,
-            LocalDate dateStartExercise,
-            LocalDate dateEndExercise,
-            String descriptionExercise,
-            Long numberOfStudents
-    ) {
+    public ExcelResponseDto(String nameCourse, Integer accademicYear, Integer creditNumber, LocalDate dateStartExercise, LocalDate dateEndExercise, String descriptionExercise, Long numberOfStudents) {
         this.nameCourse = nameCourse;
         this.accademicYear = accademicYear;
         this.creditNumber = creditNumber;

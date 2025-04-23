@@ -67,8 +67,7 @@ public class CourseService {
     
         try (Workbook workbook = new XSSFWorkbook(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             Sheet sheet = workbook.createSheet("Courses");
-    
-            // Intestazioni
+
             Row header = sheet.createRow(0);
             String[] columns = {
                 "Course Name", "Academic Year", "Credits",
@@ -78,24 +77,16 @@ public class CourseService {
                 Cell cell = header.createCell(i);
                 cell.setCellValue(columns[i]);
             }
-    
-            // Creazione delle righe con i dati
+
             int rowIdx = 1;
             for (ExcelResponseDto dto : list) {
                 Row row = sheet.createRow(rowIdx++);
-    
-                // Course Name, Academic Year, Credits
+
                 row.createCell(0).setCellValue(dto.getNameCourse());
                 row.createCell(1).setCellValue(dto.getAccademicYear());
                 row.createCell(2).setCellValue(dto.getCreditNumber());
-    
-                // Exercise Start (verifica se è null)
                 row.createCell(3).setCellValue(dto.getDateStartExercise() != null ? dto.getDateStartExercise().toString() : "N/A");
-    
-                // Exercise End (verifica se è null)
                 row.createCell(4).setCellValue(dto.getDateEndExercise() != null ? dto.getDateEndExercise().toString() : "N/A");
-    
-                // Description (verifica se è null)
                 row.createCell(5).setCellValue(dto.getDescriptionExercise() != null ? dto.getDescriptionExercise() : "No Description");
                 row.createCell(6).setCellValue(dto.getNumberOfStudents());
             }

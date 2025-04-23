@@ -8,19 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-//    @Query("""
-//    SELECT new com.codeWise.codeWise.dto.response.ExcelResponseDto(
-//        c.name,
-//        c.accademicYear,
-//        c.creditNumber,
-//        e.dateStart,
-//        e.dateEnd,
-//        e.description
-//    )
-//    FROM Course c
-//    LEFT JOIN Exercise e ON e.course.id = c.id
-//""")
-//    List<ExcelResponseDto> findCourseWithExercises();
 
     @Query("""
     SELECT new com.codeWise.codeWise.dto.response.ExcelResponseDto(
