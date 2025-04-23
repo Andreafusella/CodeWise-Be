@@ -62,10 +62,9 @@ public class TeacherService {
         List<Teacher> teacherList = teacherRepository.findAll();
 
         StringBuilder csvBuilder = new StringBuilder();
-        // Header
+
         csvBuilder.append("Name,Last Name,Email,Role\n");
 
-        // Dati dei teacher
         for (Teacher teacher : teacherList) {
             csvBuilder
                     .append(escape(teacher.getId().toString())).append(",")
@@ -86,6 +85,6 @@ public class TeacherService {
     }
     private String escape(String value) {
         if (value == null) return "";
-        return "\"" + value.replace("\"", "\"\"") + "\""; // escape di virgolette
+        return "\"" + value.replace("\"", "\"\"") + "\"";
     }
 }

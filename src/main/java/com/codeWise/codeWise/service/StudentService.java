@@ -132,7 +132,6 @@ public class StudentService {
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
-            // Titolo
             document.add(new Paragraph("STUDENT INFORMATION")
                     .setBold()
                     .setFontSize(18));
