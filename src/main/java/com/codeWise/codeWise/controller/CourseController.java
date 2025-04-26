@@ -9,6 +9,10 @@ import com.codeWise.codeWise.model.Student;
 import com.codeWise.codeWise.model.Teacher;
 import com.codeWise.codeWise.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -26,7 +30,17 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @Operation(summary = "Create a new course")
+    @Operation(summary = "Create a new course",
+            description = "Creates a new course with its name, academic year, and credit number.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Course created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Course.class))),
+            @ApiResponse(responseCode = "409", description = "Email already exists (Note: This exception type seems incorrect for course creation based on the DTO)",
+                    content = @Content(mediaType = "text/plain")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @PostMapping()
     public ResponseEntity<?> createCourse(@RequestBody NewCourseDto newCourseDto) {
         try {
@@ -39,7 +53,17 @@ public class CourseController {
         }
     }
 
-    @Operation(summary = "Get course by id")
+    @Operation(summary = "Get course by ID",
+            description = "Retrieves a course's details based on its unique ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Course found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Course.class))),
+            @ApiResponse(responseCode = "409", description = "Course not found with the given ID",
+                    content = @Content(mediaType = "text/plain")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> getCourseById(@PathVariable Long id) {
         try {
@@ -52,7 +76,15 @@ public class CourseController {
         }
     }
 
-    @Operation(summary = "Get all course")
+    @Operation(summary = "Get all courses",
+            description = "Retrieves a list of all existing courses.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of courses retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @GetMapping()
     public ResponseEntity<?> getAllCourse() {
         try {
@@ -63,7 +95,13 @@ public class CourseController {
         }
     }
 
-    @Operation(summary = "Delete course by id")
+    @Operation(summary = "Delete course by ID",
+            description = "Deletes a course based on its unique ID and unlinks all associated students.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Course deleted successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCourseById(@PathVariable Long id) {
         try {
@@ -74,7 +112,14 @@ public class CourseController {
         }
     }
 
-    @Operation(summary = "Get Excel file with info Course Exam")
+    @Operation(summary = "Get course and exercise information as Excel",
+            description = "Generates and returns an Excel file (.xlsx) containing information about courses, associated exercises, and the number of enrolled students per course.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Excel file generated and returned",
+                    content = @Content(mediaType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @GetMapping("/excel")
     public ResponseEntity<ByteArrayResource> getExcelFile() {
         try {
@@ -90,5 +135,4 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    
 }

@@ -6,6 +6,10 @@ import com.codeWise.codeWise.exception.EntityNotFoundException;
 import com.codeWise.codeWise.model.Teacher;
 import com.codeWise.codeWise.service.TeacherService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +26,17 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
 
-    @Operation(summary = "Create a new teacher")
+    @Operation(summary = "Create a new teacher",
+            description = "Creates a new teacher with the provided details. Returns the created teacher object on success.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Teacher created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Teacher.class))),
+            @ApiResponse(responseCode = "409", description = "Email already exists",
+                    content = @Content(mediaType = "text/plain")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @PostMapping
     public ResponseEntity<?> createTeacher(@RequestBody NewTeacherDto newTeacherDto) {
         try {
@@ -35,7 +49,17 @@ public class TeacherController {
         }
     }
 
-    @Operation(summary = "Get teacher by id")
+    @Operation(summary = "Get teacher by ID",
+            description = "Retrieves a teacher's details based on their unique ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Teacher found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Teacher.class))),
+            @ApiResponse(responseCode = "409", description = "Teacher not found with the given ID",
+                    content = @Content(mediaType = "text/plain")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> getTeacherById(@PathVariable Long id) {
         try {
@@ -48,7 +72,15 @@ public class TeacherController {
         }
     }
 
-    @Operation(summary = "Get all teachers")
+    @Operation(summary = "Get all teachers",
+            description = "Retrieves a list of all registered teachers.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of teachers retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = List.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @GetMapping
     public ResponseEntity<?> getAllTeachers() {
         try {
@@ -59,7 +91,15 @@ public class TeacherController {
         }
     }
 
-    @Operation(summary = "Delete teacher by id")
+    @Operation(summary = "Delete teacher by ID",
+            description = "Deletes a teacher based on their unique ID. Returns a 204 No Content on successful deletion.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Teacher deleted successfully"),
+            @ApiResponse(responseCode = "409", description = "Teacher not found with the given ID",
+                    content = @Content(mediaType = "text/plain")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTeacherById(@PathVariable Long id) {
         try {
@@ -72,7 +112,14 @@ public class TeacherController {
         }
     }
 
-    @Operation(summary = "Get CSV teacher")
+    @Operation(summary = "Get teachers as CSV",
+            description = "Generates and returns a CSV file containing the data of all registered teachers.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CSV file generated and returned",
+                    content = @Content(mediaType = "text/csv")),
+            @ApiResponse(responseCode = "500", description = "Internal server error",
+                    content = @Content(mediaType = "text/plain"))
+    })
     @GetMapping("/csv")
     public ResponseEntity<?> getCsvTeachers() {
         try {
