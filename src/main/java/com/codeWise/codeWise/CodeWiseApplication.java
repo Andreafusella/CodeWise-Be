@@ -12,6 +12,7 @@ public class CodeWiseApplication {
 		System.setProperty("DATABASE_URL", dotenv.get("DATABASE_URL"));
 		System.setProperty("DATABASE_USERNAME", dotenv.get("DATABASE_USERNAME"));
 		System.setProperty("DATABASE_PASSWORD", dotenv.get("DATABASE_PASSWORD"));
+		System.setProperty("SECRET_KEY", dotenv.get("SECRET_KEY"));
 
 		SpringApplication.run(CodeWiseApplication.class, args);
 	}
