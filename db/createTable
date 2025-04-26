@@ -1,0 +1,148 @@
+CodeWise
+
+DROP TABLE IF EXISTS student_resource, teacher_course, note, attachment, resource, course, student, teacher, exercise, paper, valuation CASCADE;
+
+CREATE TABLE teacher (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE course (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    accademic_year INTEGER NOT NULL,
+    credit_number INTEGER NOT NULL
+);
+
+CREATE TABLE student (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    date_birth DATE NOT NULL,
+    place_birth VARCHAR(255) NOT NULL,
+    year_registration INTEGER NOT NULL,
+    course_id BIGINT,
+    CONSTRAINT fk_student_course FOREIGN KEY (course_id)
+        REFERENCES course(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE resource (
+    id BIGSERIAL PRIMARY KEY,
+    text TEXT NOT NULL,
+    subject VARCHAR(255) NOT NULL,
+    upload_date DATE NOT NULL,
+    teacher_id BIGINT,
+    CONSTRAINT fk_resource_teacher FOREIGN KEY (teacher_id)
+        REFERENCES teacher(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE attachment (
+    id BIGSERIAL PRIMARY KEY,
+    file_name VARCHAR(255) NOT NULL,
+    file_url TEXT NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    course_id BIGINT,
+    CONSTRAINT fk_attachment_course FOREIGN KEY (course_id)
+        REFERENCES course(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE note (
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    upload_date DATE NOT NULL,
+    attachment_id BIGINT,
+    student_id BIGINT,
+    CONSTRAINT fk_note_attachment FOREIGN KEY (attachment_id)
+        REFERENCES attachment(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_note_student FOREIGN KEY (student_id)
+        REFERENCES student(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE teacher_course (
+    id BIGSERIAL PRIMARY KEY,
+    teacher_id BIGINT,
+    course_id BIGINT,
+    CONSTRAINT fk_teacher_course_teacher FOREIGN KEY (teacher_id)
+        REFERENCES teacher(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_teacher_course_course FOREIGN KEY (course_id)
+        REFERENCES course(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE student_resource (
+    id BIGSERIAL PRIMARY KEY,
+    date DATE NOT NULL,
+    student_id BIGINT,
+    resource_id BIGINT,
+    CONSTRAINT fk_student_resource_student FOREIGN KEY (student_id)
+        REFERENCES student(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_student_resource_resource FOREIGN KEY (resource_id)
+        REFERENCES resource(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE exercise (
+    id BIGSERIAL PRIMARY KEY,
+    date_start DATE NOT NULL,
+    date_end DATE NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    teacher_id BIGINT,
+    course_id BIGINT,
+    CONSTRAINT fk_exercise_teacher FOREIGN KEY (teacher_id)
+        REFERENCES teacher(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_exercise_course FOREIGN KEY (course_id)
+        REFERENCES course(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE paper (
+    id BIGSERIAL PRIMARY KEY,
+    comment TEXT NOT NULL,
+    upload_date DATE NOT NULL,
+    file_url TEXT NOT NULL,
+    exercise_id BIGINT,
+    student_id BIGINT,
+    CONSTRAINT fk_paper_exercise FOREIGN KEY (exercise_id)
+        REFERENCES exercise(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    CONSTRAINT fk_paper_student FOREIGN KEY (student_id)
+        REFERENCES student(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE valuation (
+    id BIGSERIAL PRIMARY KEY,
+    valuation INTEGER NOT NULL,
+    comment TEXT NOT NULL,
+    paper_id BIGINT,
+    CONSTRAINT fk_valuation_paper FOREIGN KEY (paper_id)
+        REFERENCES paper(id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
